@@ -27,25 +27,83 @@ public class Estudiante {
         return suma;
     }
 
-    public void imprimirNotas() {
-        System.out.println("Estudiante ID: " + identificacion);
-        System.out.println("Nombre: " + getNombreCompleto());
-        System.out.println("ID: " + componente.getCodigoComponente());
-        System.out.println("Nombre: " + componente.getNombreComponente());
-        System.out.println("Profesor: " + componente.getProfesor());
-        System.out.println("Notas:");
+    public void mostrarTablaNotas() {
+        System.out.println("\n" + "=".repeat(50));
+        System.out.printf("                 ESTUDIANTE %s\n", getIdentificacion());
+        System.out.println("=".repeat(50));
+        
+        // Encabezado de la tabla
+        System.out.println("┌─────────┬────────────┬─────────────────┐");
+        System.out.println("│ vrNota  │ porcentaje │ vrNotaPorcentaje│");
+        System.out.println("├─────────┼────────────┼─────────────────┤");
+        
+        // Filas de notas
         for (Nota nota : notas) {
-            System.out.printf("Nota: %.1f | Porcentaje: %.1f%%\n", nota.getNota(), nota.getPorcentaje());
+            System.out.printf("│  %4.1f   │     %2.0f     │      %5.2f      │%n",
+                nota.getNota(),
+                nota.getPorcentaje(), 
+                nota.getValorPorcentual());
         }
-        System.out.println("Cantidad de notas: " + notas.size());
-        System.out.printf("Nota Final: %.1f\n", getNotaFinal());
+        
+        System.out.println("└─────────┴────────────┴─────────────────┘");
+        
+        // Información final
+        System.out.println("┌─────────────┬─────────┐");
+        System.out.printf("│ notaFinal   │  %5.2f  │%n", getNotaFinal());
+        System.out.printf("│ cantNotas   │    %d    │%n", notas.size());
+        System.out.println("└─────────────┴─────────┘");
+        
+        // Estado del estudiante
+        String estado = estaAprobado() ? "APROBADO" : "REPROBADO";
+        System.out.printf("\nEstado académico: %s\n", estado);
+        
+        if (getNotaFinal() >= 9.0) {
+            System.out.println("🏆 ¡EXCELENTE RENDIMIENTO!");
+        } else if (getNotaFinal() >= 8.0) {
+            System.out.println("⭐ ¡MUY BUEN RENDIMIENTO!");
+        } else if (getNotaFinal() >= 7.0) {
+            System.out.println("✓ Buen rendimiento");
+        } else if (getNotaFinal() >= 6.0) {
+            System.out.println("✓ Rendimiento aceptable");
+        } else {
+            System.out.println("⚠️  Necesita mejorar");
+        }
     }
 
+    public void imprimirNotas() {
+        mostrarTablaNotas();
+    }
+
+    // Getters
     public String getIdentificacion() {
         return identificacion;
     }
 
     public String getNombreCompleto() {
         return nombre + " " + apellido;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public Componente getComponente() {
+        return componente;
+    }
+
+    public List<Nota> getNotas() {
+        return new ArrayList<>(notas); // Retorna una copia para proteger la encapsulación
+    }
+
+    public int getCantidadNotas() {
+        return notas.size();
+    }
+
+    public boolean estaAprobado() {
+        return getNotaFinal() >= 6.0;
     }
 }
