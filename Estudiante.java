@@ -1,48 +1,51 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Estudiante {
-    private int id;
+    private String identificacion;
     private String nombre;
-    private List<Double> notas;
+    private String apellido;
+    private Componente componente;
+    private List<Nota> notas;
 
-    public Estudiante(int id, String nombre) {
-        this.id = id;
+    public Estudiante(String identificacion, String nombre, String apellido, Componente componente) {
+        this.identificacion = identificacion;
         this.nombre = nombre;
+        this.apellido = apellido;
+        this.componente = componente;
         this.notas = new ArrayList<>();
     }
 
-    public int getId() { return id; }
-    public String getNombre() { return nombre; }
-    public List<Double> getNotas() { return notas; }
-
-    public void agregarNota(double nota) {
+    public void agregarNota(Nota nota) {
         notas.add(nota);
     }
 
-    public boolean eliminarNota(int index) {
-        if (index >= 0 && index < notas.size()) {
-            notas.remove(index);
-            return true;
+    public float getNotaFinal() {
+        float suma = 0;
+        for (Nota nota : notas) {
+            suma += nota.getValorPorcentual();
         }
-        System.out.println("Índice de nota inválido.");
-        return false;
+        return suma;
     }
 
-    public void actualizarNota(int index, double nuevaNota) {
-        if (index >= 0 && index < notas.size()) {
-            notas.set(index, nuevaNota);
-        } else {
-            System.out.println("Índice de nota inválido.");
+    public void imprimirNotas() {
+        System.out.println("Estudiante ID: " + identificacion);
+        System.out.println("Nombre: " + getNombreCompleto());
+        System.out.println("ID: " + componente.getCodigoComponente());
+        System.out.println("Nombre: " + componente.getNombreComponente());
+        System.out.println("Profesor: " + componente.getProfesor());
+        System.out.println("Notas:");
+        for (Nota nota : notas) {
+            System.out.printf("Nota: %.1f | Porcentaje: %.1f%%\n", nota.getNota(), nota.getPorcentaje());
         }
+        System.out.println("Cantidad de notas: " + notas.size());
+        System.out.printf("Nota Final: %.1f\n", getNotaFinal());
     }
 
-    public double getTotalNotas() {
-        return notas.stream().mapToDouble(Double::doubleValue).sum();
+    public String getIdentificacion() {
+        return identificacion;
     }
 
-    public double getPromedioNotas() {
-        if (notas.isEmpty()) return 0.0;
-        return getTotalNotas() / notas.size();
+    public String getNombreCompleto() {
+        return nombre + " " + apellido;
     }
 }
