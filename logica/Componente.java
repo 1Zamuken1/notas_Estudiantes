@@ -205,4 +205,7 @@ public class Componente {
         }
         return texto.substring(0, longitudMaxima - 3) + "...";
     }
+
+    
 }
+

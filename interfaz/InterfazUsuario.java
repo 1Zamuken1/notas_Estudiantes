@@ -1,4 +1,5 @@
 package interfaz;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,6 +23,7 @@ public class InterfazUsuario {
         this.sistema = new SistemaAutenticacion();
         this.gestorComponentes = new GestorComponentes();
         this.scanner = new Scanner(System.in);
+        inicializarComponentesYAsociaciones();
     }
 
     // ==========================================================
@@ -96,7 +98,7 @@ public class InterfazUsuario {
                 System.out.println("┌─────────────────────────────────────────────┐");
                 System.out.println("│                 Bienvenido                  │");
                 System.out.println("├─────────────────────────────────────────────┤");
-                System.out.println("│ Administrador " + String.format("%-28s", usuario.getNombre()) + " │");
+                System.out.println("│ Administrador " + String.format("%-29s", usuario.getNombre()) + " │");
                 System.out.println("└─────────────────────────────────────────────┘");
                 mostrarMenuAdministrador((Administrador) usuario);
             } else if (usuario instanceof Profesor) {
@@ -345,6 +347,82 @@ public class InterfazUsuario {
                     System.out.println("└──────────────────────────────────────────────┘");
             }
         } while (opcion != 4);
+    }
+
+    private void inicializarComponentesYAsociaciones() {
+        // Obtener profesores y estudiantes ya creados
+        List<Profesor> profesores = sistema.obtenerProfesores();
+        List<Estudiante> estudiantes = sistema.obtenerEstudiantes();
+
+        // Crear 5 componentes asociados a profesores
+        gestorComponentes.registrarComponente("Matemáticas I", profesores.get(0)); // Laura López
+        gestorComponentes.registrarComponente("Física Básica", profesores.get(1)); // Juan Pérez
+        gestorComponentes.registrarComponente("Química General", profesores.get(2)); // Ana Martínez
+        gestorComponentes.registrarComponente("Historia Universal", profesores.get(3)); // Luis García
+        gestorComponentes.registrarComponente("Literatura Moderna", profesores.get(4)); // Marta Fernández
+
+        // Crear 2 componentes sin profesor asignado
+        gestorComponentes.registrarComponente("Arte Contemporáneo", null);
+        gestorComponentes.registrarComponente("Programación Inicial", null);
+
+        // Asociar estudiantes a los primeros 5 componentes (ejemplo)
+        List<Componente> componentes = gestorComponentes.getComponentes();
+        if (componentes.size() >= 7 && estudiantes.size() >= 7) {
+            componentes.get(0).agregarEstudiante(estudiantes.get(0));
+            estudiantes.get(0).inscribirEnComponente(componentes.get(0));
+            componentes.get(0).agregarEstudiante(estudiantes.get(1));
+            estudiantes.get(0).inscribirEnComponente(componentes.get(1));
+
+            componentes.get(1).agregarEstudiante(estudiantes.get(2));
+            estudiantes.get(1).inscribirEnComponente(componentes.get(2));
+            componentes.get(1).agregarEstudiante(estudiantes.get(3));
+            estudiantes.get(1).inscribirEnComponente(componentes.get(3));
+
+            componentes.get(2).agregarEstudiante(estudiantes.get(4));
+            estudiantes.get(2).inscribirEnComponente(componentes.get(4));
+            componentes.get(2).agregarEstudiante(estudiantes.get(0));
+            estudiantes.get(2).inscribirEnComponente(componentes.get(0));
+
+            componentes.get(3).agregarEstudiante(estudiantes.get(1));
+            estudiantes.get(3).inscribirEnComponente(componentes.get(1));
+            componentes.get(3).agregarEstudiante(estudiantes.get(2));
+            estudiantes.get(3).inscribirEnComponente(componentes.get(2));
+
+            componentes.get(4).agregarEstudiante(estudiantes.get(3));
+            estudiantes.get(4).inscribirEnComponente(componentes.get(3));
+            componentes.get(4).agregarEstudiante(estudiantes.get(4));
+            estudiantes.get(4).inscribirEnComponente(componentes.get(4));
+
+            componentes.get(1).agregarEstudiante(estudiantes.get(5));
+            estudiantes.get(5).inscribirEnComponente(componentes.get(1));
+
+            componentes.get(2).agregarEstudiante(estudiantes.get(6));
+            estudiantes.get(6).inscribirEnComponente(componentes.get(2));
+
+            componentes.get(3).agregarEstudiante(estudiantes.get(7));
+            estudiantes.get(7).inscribirEnComponente(componentes.get(3));
+
+            componentes.get(4).agregarEstudiante(estudiantes.get(8));
+            estudiantes.get(8).inscribirEnComponente(componentes.get(4));
+
+            componentes.get(5).agregarEstudiante(estudiantes.get(9));
+            estudiantes.get(9).inscribirEnComponente(componentes.get(5));
+        }
+
+        // Agregar 10 notas de prueba a cada estudiante en cada componente inscrito
+        for (Estudiante estudiante : estudiantes) {
+            // Para cada componente en el que está inscrito el estudiante
+            for (Componente componente : gestorComponentes.getComponentes()) {
+                // Si el estudiante está inscrito en el componente
+                if (componente.getEstudiantes().contains(estudiante)) {
+                    for (int i = 1; i <= 10; i++) {
+                        double valor = 3.0 + (i * 0.1); // Ejemplo: 3.1, 3.2, ..., 4.0
+                        int porcentaje = 10; // Ejemplo: cada nota vale 10%
+                        estudiante.agregarNota(componente, new Nota(valor, porcentaje));
+                    }
+                }
+            }
+        }
     }
 
     private void menuGestionNotasAdmin() {
@@ -826,18 +904,24 @@ public class InterfazUsuario {
         scanner.nextLine();
         Componente componente = gestorComponentes.buscarComponentePorId(idComp);
 
-        System.out.print("Valor de la nota: ");
-        double valorNota = scanner.nextDouble();
-        System.out.print("Porcentaje: ");
-        int porcentaje = scanner.nextInt();
-        scanner.nextLine();
+        String continuar;
+        do {
+            System.out.print("Valor de la nota: ");
+            double valorNota = scanner.nextDouble();
+            System.out.print("Porcentaje: ");
+            int porcentaje = scanner.nextInt();
+            scanner.nextLine();
 
-        Nota nota = new Nota(valorNota, porcentaje);
-        estudiante.agregarNota(componente, nota);
+            Nota nota = new Nota(valorNota, porcentaje);
+            estudiante.agregarNota(componente, nota);
 
-        System.out.println("\n┌─────────────────────────────────────────────┐");
-        System.out.println("│           Nota agregada correctamente        │");
-        System.out.println("└──────────────────────────────────────────────┘");
+            System.out.println("\n┌─────────────────────────────────────────────┐");
+            System.out.println("│           Nota agregada correctamente        │");
+            System.out.println("└──────────────────────────────────────────────┘");
+
+            System.out.print("¿Deseas registrar otra calificación? (s/n): ");
+            continuar = scanner.nextLine().trim().toLowerCase();
+        } while (!continuar.equals("n"));
     }
 
     private void mostrarNotasPorComponente(Estudiante estudiante, Componente componente) {

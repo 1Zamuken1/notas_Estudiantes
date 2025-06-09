@@ -15,15 +15,15 @@ public class GestorComponentes {
     public void registrarComponente(String nombre, Profesor profesor) {
         Componente componente = new Componente(nombre, profesor);
         componentes.add(componente);
-        
+
         // Tabla de confirmación de registro
         System.out.println("┌──────────────────────────────────────────────────────┐");
         System.out.println("│                COMPONENTE REGISTRADO                 │");
         System.out.println("├──────────────────────────────────────────────────────┤");
         System.out.println("│ ID: " + String.format("%-47s", componente.getId()) + "│");
         System.out.println("│ Nombre: " + String.format("%-43s", componente.getNombre()) + "│");
-        System.out.println("│ Profesor: " + String.format("%-41s", 
-                          (profesor != null ? profesor.getNombre() : "Sin asignar")) + "│");
+        System.out.println("│ Profesor: " + String.format("%-41s",
+                (profesor != null ? profesor.getNombre() : "Sin asignar")) + "│");
         System.out.println("└──────────────────────────────────────────────────────┘");
     }
 
@@ -41,14 +41,14 @@ public class GestorComponentes {
         System.out.println("┌──────┬─────────────────────────┬─────────────────────────┐");
         System.out.println("│  ID  │         NOMBRE          │        PROFESOR         │");
         System.out.println("├──────┼─────────────────────────┼─────────────────────────┤");
-        
+
         for (Componente c : componentes) {
             String profesorNombre = (c.getProfesor() != null) ? c.getProfesor().getNombre() : "Sin asignar";
-            System.out.println("│ " + String.format("%-4d", c.getId()) + 
-                             " │ " + String.format("%-23s", truncarTexto(c.getNombre(), 23)) + 
-                             " │ " + String.format("%-23s", truncarTexto(profesorNombre, 23)) + " │");
+            System.out.println("│ " + String.format("%-4d", c.getId()) +
+                    " │ " + String.format("%-23s", truncarTexto(c.getNombre(), 23)) +
+                    " │ " + String.format("%-23s", truncarTexto(profesorNombre, 23)) + " │");
         }
-        
+
         System.out.println("└──────┴─────────────────────────┴─────────────────────────┘");
     }
 
@@ -78,18 +78,18 @@ public class GestorComponentes {
                     return false;
                 }
             }
-            
+
             String nombreAnterior = componente.getNombre();
-            String profesorAnterior = (componente.getProfesor() != null) ? 
-                                    componente.getProfesor().getNombre() : "Sin asignar";
-            
+            String profesorAnterior = (componente.getProfesor() != null) ?
+                    componente.getProfesor().getNombre() : "Sin asignar";
+
             if (nuevoNombre != null && !nuevoNombre.isEmpty()) {
                 componente.setNombre(nuevoNombre);
             }
             if (nuevoProfesor != null) {
                 componente.setProfesor(nuevoProfesor);
             }
-            
+
             // Tabla de confirmación de actualización
             System.out.println("┌──────────────────────────────────────────────────────┐");
             System.out.println("│               COMPONENTE ACTUALIZADO                 │");
@@ -100,9 +100,9 @@ public class GestorComponentes {
             System.out.println("│ Nombre actual: " + String.format("%-36s", truncarTexto(componente.getNombre(), 36)) + "│");
             System.out.println("├──────────────────────────────────────────────────────┤");
             System.out.println("│ Profesor anterior: " + String.format("%-32s", truncarTexto(profesorAnterior, 32)) + "│");
-            System.out.println("│ Profesor actual: " + String.format("%-34s", 
-                              truncarTexto((componente.getProfesor() != null ? 
-                              componente.getProfesor().getNombre() : "Sin asignar"), 34)) + "│");
+            System.out.println("│ Profesor actual: " + String.format("%-34s",
+                    truncarTexto((componente.getProfesor() != null ?
+                            componente.getProfesor().getNombre() : "Sin asignar"), 34)) + "│");
             System.out.println("└──────────────────────────────────────────────────────┘");
             return true;
         }
@@ -114,7 +114,7 @@ public class GestorComponentes {
         Componente componente = buscarComponentePorId(id);
         if (componente != null) {
             componentes.remove(componente);
-            
+
             System.out.println("┌──────────────────────────────────────────────────────┐");
             System.out.println("│               COMPONENTE ELIMINADO                   │");
             System.out.println("├──────────────────────────────────────────────────────┤");

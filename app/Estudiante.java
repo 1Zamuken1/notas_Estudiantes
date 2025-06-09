@@ -29,6 +29,9 @@ public class Estudiante extends Usuario {
         System.out.println("└──────────────────────────────────────────────────────┘");
     }
 
+    // NUEVO: Lista de componentes inscritos
+    private List<Componente> componentesInscritos = new ArrayList<>();
+
     // Mapa: Componente -> Lista de Notas
     private Map<Componente, List<Nota>> notasPorComponente = new HashMap<>();
 
@@ -42,6 +45,17 @@ public class Estudiante extends Usuario {
 
     public Map<Componente, List<Nota>> getNotasPorComponente() {
         return notasPorComponente;
+    }
+
+    // Método para inscribir al estudiante en un componente
+    public void inscribirEnComponente(Componente componente) {
+        if (!componentesInscritos.contains(componente)) {
+            componentesInscritos.add(componente);
+        }
+    }
+
+    public List<Componente> getComponentesInscritos() {
+        return componentesInscritos;
     }
 
     @Override
@@ -59,14 +73,20 @@ public class Estudiante extends Usuario {
         sb.append("│ Nombre: ").append(String.format("%-43s", truncarTexto(getNombre(), 43))).append("│\n");
         sb.append("│ Apellido: ").append(String.format("%-41s", truncarTexto(apellidoMostrar, 41))).append("│\n");
         sb.append("│ Rol: ").append(String.format("%-46s", "Estudiante")).append("│\n");
-        
-        // Información académica
-        int totalComponentes = notasPorComponente.size();
-        int totalNotas = notasPorComponente.values().stream()
-                        .mapToInt(List::size)
-                        .sum();
-        
-        sb.append("│ Componentes inscritos: ").append(String.format("%-30s", totalComponentes)).append("│\n");
+
+        // Mostrar componentes inscritos
+        sb.append("│ Componentes inscritos: ").append(String.format("%-30s", componentesInscritos.size())).append("│\n");
+        for (Componente c : componentesInscritos) {
+            sb.append("│   - ").append(truncarTexto(c.getNombre(), 41)).append("\n");
+        }
+
+        // Total de notas (de todos los componentes)
+        int totalNotas = 0;
+        if (notasPorComponente != null) {
+            for (List<Nota> lista : notasPorComponente.values()) {
+                totalNotas += lista.size();
+            }
+        }
         sb.append("│ Total de notas: ").append(String.format("%-37s", totalNotas)).append("│\n");
         sb.append("│ Estado: ").append(String.format("%-43s", "Activo")).append("│\n");
         sb.append("└────────────────────────────────────────────────────────┘");

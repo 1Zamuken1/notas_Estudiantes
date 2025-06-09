@@ -17,9 +17,44 @@ public class SistemaAutenticacion {
         profesores = new ArrayList<>();
         estudiantes = new ArrayList<>();
 
+        // Crear usuarios por defecto
+        // Admin
         Administrador adminDefault = new Administrador("Admin", "123");
         administradores.add(adminDefault);
 
+        // Profesores
+        Profesor profesorDefault = new Profesor("Laura", "López", "123".toCharArray());
+        profesores.add(profesorDefault);
+        Profesor profesorDefault2 = new Profesor("Juan", "Pérez", "123".toCharArray());
+        profesores.add(profesorDefault2);
+        Profesor profesorDefault3 = new Profesor("Ana", "Martínez", "123".toCharArray());
+        profesores.add(profesorDefault3);
+        Profesor profesorDefault4 = new Profesor("Luis", "García", "123".toCharArray());
+        profesores.add(profesorDefault4);
+        Profesor profesorDefault5 = new Profesor("Marta", "Fernández", "123".toCharArray());
+        profesores.add(profesorDefault5);
+
+        // Estudiantes
+        Estudiante estudianteDefault = new Estudiante("Carlos", "Gómez", "123".toCharArray());
+        estudiantes.add(estudianteDefault);
+        Estudiante estudianteDefault2 = new Estudiante("Sofía", "Ramírez", "123".toCharArray());
+        estudiantes.add(estudianteDefault2);
+        Estudiante estudianteDefault3 = new Estudiante("Diego", "Torres", "123".toCharArray());
+        estudiantes.add(estudianteDefault3);
+        Estudiante estudianteDefault4 = new Estudiante("Lucía", "Hernández", "123".toCharArray());
+        estudiantes.add(estudianteDefault4);
+        Estudiante estudianteDefault5 = new Estudiante("Andrés", "Vázquez", "123".toCharArray());
+        estudiantes.add(estudianteDefault5);
+        Estudiante estudianteDefault6 = new Estudiante("Valentina", "Morales", "123".toCharArray());
+        estudiantes.add(estudianteDefault6);
+        Estudiante estudianteDefault7 = new Estudiante("Mateo", "Jiménez", "123".toCharArray());
+        estudiantes.add(estudianteDefault7);
+        Estudiante estudianteDefault8 = new Estudiante("Camila", "Rojas", "123".toCharArray());
+        estudiantes.add(estudianteDefault8);
+        Estudiante estudianteDefault9 = new Estudiante("Sebastián", "Cruz", "123".toCharArray());
+        estudiantes.add(estudianteDefault9);
+        Estudiante estudianteDefault10 = new Estudiante("Isabella", "Castillo", "123".toCharArray());
+        estudiantes.add(estudianteDefault10);
     }
 
     // Métodos para obtener listas
